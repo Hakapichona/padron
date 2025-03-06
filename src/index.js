@@ -58,13 +58,11 @@ db.connect(err => {
                 console.log('Tabla socios creada exitosamente');
             });
         } else {
-            console.log('La tabla socios ya existe');
         }
     });
 });
 
 app.get('/verificar-cedula', (req, res) => {
-    console.log("Solicitud recibida con query:", req.query); // 👈 Verifica qué recibe el backend
     const cedula = req.query.cedula;
 
     if (!cedula) {
