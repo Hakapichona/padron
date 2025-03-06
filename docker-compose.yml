@@ -11,7 +11,8 @@ services:
       - "3306:3306"
     volumes:
       - ./data/mysql:/var/lib/mysql
-    command: [ "/bin/sh", "-c", "mysqld > /var/log/mysql.log 2>&1" ]
+
+  #    command: [ "/bin/sh", "-c", "mysqld > /var/log/mysql.log 2>&1" ]
 
 
   backend:
@@ -23,9 +24,9 @@ services:
       - "3000:3000"
     volumes:
       - .:/app
-    command: ["npm", "run", "dev"]
+    command: ["wait-for-it", "mysql:3306", "--", "npm", "run", "dev"]
     environment:
-      DB_HOST: localhost
+      DB_HOST: mysql
       DB_PORT: 3306
       DB_USER: admincerrito
       DB_PASSWORD: dbcerritoccp

@@ -13,6 +13,10 @@ RUN npm install
 # Copia el resto del código del backend
 COPY . .
 
+# Dockerfile para backend
+COPY wait-for-it.sh /usr/local/bin/wait-for-it
+RUN chmod +x /usr/local/bin/wait-for-it
+
 # Expone el puerto donde correrá la API
 EXPOSE 3000
 
