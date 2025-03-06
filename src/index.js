@@ -1,7 +1,22 @@
 import express from 'express';
 import mysql from "mysql2";
+import cors from "cors";
 
 const app = express();
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET");
+    res.header("Access-Control-Allow-Headers", "Content-Type");
+    res.header("Access-Control-Allow-Headers", "Accept");
+    next();
+});
+
+app.use(cors({
+    origin: '*', // Permitir todos los orígenes
+    methods: ['GET'], // Solo acepta solicitudes GET
+    allowedHeaders: ['Content-Type', 'application/json', 'Accept'],
+}));
+
 
 const db = mysql.createConnection({
     host: 'mysql',
@@ -49,6 +64,7 @@ db.connect(err => {
 });
 
 app.get('/verificar-cedula', (req, res) => {
+    console.log("Solicitud recibida con query:", req.query); // 👈 Verifica qué recibe el backend
     const cedula = req.query.cedula;
 
     if (!cedula) {
