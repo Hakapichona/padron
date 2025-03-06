@@ -1,0 +1,32 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: padronccp
+      MYSQL_USER: admincerrito
+      MYSQL_PASSWORD: dbcerritoccp
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    command: [ "/bin/sh", "-c", "mysqld > /var/log/mysql.log 2>&1" ]
+
+
+  backend:
+    build: .
+    container_name: backensito
+    depends_on:
+      - mysql
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    command: ["npm", "run", "dev"]
+    environment:
+      DB_HOST: localhost
+      DB_PORT: 3306
+      DB_USER: admincerrito
+      DB_PASSWORD: dbcerritoccp
+      DB_NAME: padronccp
